@@ -125,7 +125,7 @@ public class PrinterHelper {
     if (getInstance().getOutputDialog().isVisible()) {
       return;
     }
-    MessageConsole mc = new MessageConsole(getInstance().getTextArea());
+    MessageConsole mc = new MessageConsole(getInstance().getTextPane());
     mc.redirectOut();
     mc.redirectErr(Color.red, null);
     mc.setMessageLines(10000);
@@ -193,7 +193,7 @@ public class PrinterHelper {
   /**
    * @return the textArea
    */
-  public JTextPane getTextArea() {
+  public JTextPane getTextPane() {
     return textPane;
   }
 

@@ -133,11 +133,14 @@ public class StringHelper {
    * Convenience method. Allows you to give the splitBy method a list rather than an array or comma separated
    * parameters.
    *
-   * @param separator
-   * @param objects
-   * @return
+   * @param separator the separator to use between all given objects
+   * @param objects the objects to separate. If null, returns "null"
+   * @return The objects.toString() separated by the separator
    */
   public static <O extends Object> String splitBy(String separator, java.util.List<O> objects) {
+    if (objects == null) {
+      return "null";
+    }
     return splitBy(separator, objects.toArray(new Object[objects.size()]));
   }
 
@@ -145,11 +148,14 @@ public class StringHelper {
    * Separates the given strings with the given separator (", " for example). Does not add the separator to the end of
    * the list
    *
-   * @param separator
-   * @param objects
-   * @return
+   * @param separator the separator to use between all given objects
+   * @param objects the objects to separate. If null, returns "null"
+   * @return The objects.toString() separated by the separator
    */
   public static <O extends Object> String splitBy(String separator, O... objects) {
+    if (objects == null) {
+      return "null";
+    }
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < objects.length; i++) {
       if (i > 0) {

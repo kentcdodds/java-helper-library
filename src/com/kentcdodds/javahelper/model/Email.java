@@ -83,6 +83,7 @@ public class Email {
     this.cc = cc;
     this.bcc = bcc;
     this.subject = subject;
+    this.body = body;
     this.html = html;
     this.bodyParts = bodyParts;
   }
@@ -163,7 +164,8 @@ public class Email {
       bodyPartBuilder.append(StringHelper.newline).append("\t");
       try {
         bodyPartBuilder.append(mimeBodyPart.getFileName());
-      } catch (MessagingException ex) {
+      } catch (Throwable ex) {
+        //We don't care if this error is thrown. We don't want this to break anything.
         bodyPartBuilder.append("N/A");
       }
     }
