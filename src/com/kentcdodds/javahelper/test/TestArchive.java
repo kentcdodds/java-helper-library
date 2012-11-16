@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,6 +23,7 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -264,16 +266,16 @@ public class TestArchive {
 //    attachment1.setFile(new File(ioPlaygroundDir, "I am a print test.txt"));
     attachment1.setContentType("application/pdf");
     attachment1.generateMimeBodyPart();
-    
+
     EmailAttachment attachment2 = new EmailAttachment(new URL("http://www.kentcdodds.com/photo.jpg"), "image/jpeg", Message.INLINE);
     attachment2.setContentId("<" + contentId + ">");
     attachment2.generateMimeBodyPart();
-    
+
     EmailAttachment attachment3 = new EmailAttachment("This is a test".getBytes(), "Test.txt", "text/plain", Message.ATTACHMENT);
     attachment3.generateMimeBodyPart();
-    
+
     email.addEmailAttachments(attachment1, attachment2, attachment3);
-    
+
     email.addReplyTo("kentdoddsproductions@gmail.com", "kentcdodds@gmail.com");
     Session session = Session.getInstance(mailServerProperties, null);
 //    Session session = EmailHelper.getGoogleSession(user, password);
@@ -284,10 +286,21 @@ public class TestArchive {
   }
 
   /**
+   * Creates a frame and sets the window icon to the iSayHiGuy.jpg in resources.
+   *
+   * @throws MalformedURLException
+   */
+  public static void setWindowIcon() throws MalformedURLException {
+    JFrame frame = new JFrame();
+    SwingHelper.setWindowIcon(frame, TestArchive.class, "/com/kentcdodds/javahelper/resources/iSayHiGuy.jpg");
+    frame.setVisible(true);
+  }
+
+  /**
    * Test resizeImage functionality
    */
   public static void resizeImage() throws IOException {
-    BufferedImage im = ImageIO.read(TestClass.class.getResource(testImageLocation));
+    BufferedImage im = ImageIO.read(TestArchive.class.getResource(testImageLocation));
     Image resizeImage = SwingHelper.resizeImage(im, 500, 500, true);
     JLabel label = new JLabel(new ImageIcon(resizeImage));
     JDialog dialog = new JDialog();

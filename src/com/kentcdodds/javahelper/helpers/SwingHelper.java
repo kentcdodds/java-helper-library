@@ -286,7 +286,6 @@ public class SwingHelper {
    */
   public static JWindow getProgressWheelWindow(final Icon icon, final Float opacity, final int x, final int y) {
     JWindow jWindow = new JWindow() {
-
       {
         setOpacity(opacity);
         setLocation(x, y);
@@ -481,6 +480,20 @@ public class SwingHelper {
         setUnifiedColor((Container) component, color);
       }
     }
+  }
+
+  /**
+   * Sets the icon for the given window to the resource at the given resource location.
+   *
+   * @param window
+   * @param resourceLocation
+   * @throws MalformedURLException
+   */
+  public static void setWindowIcon(Window window, Class klass, String resourceLocation) throws MalformedURLException {
+    URL url = klass.getResource(resourceLocation);
+    Toolkit kit = Toolkit.getDefaultToolkit();
+    Image img = kit.createImage(url);
+    window.setIconImage(img);
   }
   //</editor-fold>
 
