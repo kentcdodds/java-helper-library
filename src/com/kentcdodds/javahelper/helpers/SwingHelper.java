@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import org.psafix.folderchooser.JFolderChooser;
@@ -287,7 +289,7 @@ public class SwingHelper {
   public static JWindow getProgressWheelWindow(final Icon icon, final Float opacity, final int x, final int y) {
     JWindow jWindow = new JWindow() {
       {
-        setOpacity(opacity);
+        //setOpacity(opacity); //Not available in JDK 1.6
         setLocation(x, y);
         setSize(icon.getIconWidth(), icon.getIconHeight());
         add(new JLabel(icon));
@@ -442,8 +444,14 @@ public class SwingHelper {
   public static void setSystemLookAndFeel() {
     try {
       javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-      java.util.logging.Logger.getLogger(SwingHelper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (ClassNotFoundException ex) {
+      Logger.getLogger(SwingHelper.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+      Logger.getLogger(SwingHelper.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+      Logger.getLogger(SwingHelper.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (UnsupportedLookAndFeelException ex) {
+      Logger.getLogger(SwingHelper.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
 
@@ -454,15 +462,21 @@ public class SwingHelper {
    * @param lookAndFeel to set (like "Nimbus")
    */
   public static void setLookAndFeel(String lookAndFeel) {
-    try {
-      for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-        if ((info.getName()).equals(lookAndFeel)) {
+    for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+      if ((info.getName()).equals(lookAndFeel)) {
+        try {
           javax.swing.UIManager.setLookAndFeel(info.getClassName());
-          break;
+        } catch (ClassNotFoundException ex) {
+          Logger.getLogger(SwingHelper.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+          Logger.getLogger(SwingHelper.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+          Logger.getLogger(SwingHelper.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+          Logger.getLogger(SwingHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
+        break;
       }
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-      java.util.logging.Logger.getLogger(SwingHelper.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
   }
 

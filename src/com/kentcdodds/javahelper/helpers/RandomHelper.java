@@ -381,7 +381,7 @@ public class RandomHelper {
    */
   public static Map<String, String> getLongStatesMap() {
     if (longStatesMap == null) {
-      longStatesMap = new TreeMap<>();
+      longStatesMap = new TreeMap<String, String>();
       longStatesMap.put("Alabama", "AL");
       longStatesMap.put("Alaska", "AK");
       longStatesMap.put("Arizona", "AZ");
@@ -442,7 +442,7 @@ public class RandomHelper {
    */
   public static Map<String, String> getShortStatesMap() {
     if (shortStatesMap == null) {
-      shortStatesMap = new TreeMap<>();
+      shortStatesMap = new TreeMap<String, String>();
       shortStatesMap.put("AL", "Alabama");
       shortStatesMap.put("AK", "Alaska");
       shortStatesMap.put("AZ", "Arizona");
@@ -503,7 +503,7 @@ public class RandomHelper {
    */
   public static Map getCityStateMap() {
     if (cityStateMap == null) {
-      cityStateMap = new TreeMap<>();
+      cityStateMap = new TreeMap<String, String>();
       cityStateMap.put("New York", "New York");
       cityStateMap.put("Los Angeles", "California");
       cityStateMap.put("Chicago", "Illinois");
@@ -788,59 +788,59 @@ public class RandomHelper {
    */
   public static Map getStateCityMap() {
     if (stateCityMap == null) {
-      stateCityMap = new TreeMap<>();
+      stateCityMap = new TreeMap<String, List<String>>();
       //<editor-fold defaultstate="collapsed" desc="States Lists">
-      List<String> alabamaList = new ArrayList<>();
-      List<String> alaskaList = new ArrayList<>();
-      List<String> arizonaList = new ArrayList<>();
-      List<String> arkansasList = new ArrayList<>();
-      List<String> californiaList = new ArrayList<>();
-      List<String> coloradoList = new ArrayList<>();
-      List<String> connecticutList = new ArrayList<>();
-      List<String> districtofcolumbiaList = new ArrayList<>();
-      List<String> floridaList = new ArrayList<>();
-      List<String> georgiaList = new ArrayList<>();
-      List<String> hawaiiList = new ArrayList<>();
-      List<String> idahoList = new ArrayList<>();
-      List<String> illinoisList = new ArrayList<>();
-      List<String> indianaList = new ArrayList<>();
-      List<String> iowaList = new ArrayList<>();
-      List<String> kansasList = new ArrayList<>();
-      List<String> kentuckyList = new ArrayList<>();
-      List<String> louisianaList = new ArrayList<>();
-      List<String> marylandList = new ArrayList<>();
-      List<String> massachusettsList = new ArrayList<>();
-      List<String> michiganList = new ArrayList<>();
-      List<String> minnesotaList = new ArrayList<>();
-      List<String> mississippiList = new ArrayList<>();
-      List<String> missouriList = new ArrayList<>();
-      List<String> montanaList = new ArrayList<>();
-      List<String> nebraskaList = new ArrayList<>();
-      List<String> nevadaList = new ArrayList<>();
-      List<String> newhampshireList = new ArrayList<>();
-      List<String> newjerseyList = new ArrayList<>();
-      List<String> newmexicoList = new ArrayList<>();
-      List<String> newyorkList = new ArrayList<>();
-      List<String> northcarolinaList = new ArrayList<>();
-      List<String> northdakotaList = new ArrayList<>();
-      List<String> ohioList = new ArrayList<>();
-      List<String> oklahomaList = new ArrayList<>();
-      List<String> oregonList = new ArrayList<>();
-      List<String> pennsylvaniaList = new ArrayList<>();
-      List<String> rhodeislandList = new ArrayList<>();
-      List<String> southcarolinaList = new ArrayList<>();
-      List<String> southdakotaList = new ArrayList<>();
-      List<String> tennesseeList = new ArrayList<>();
-      List<String> texasList = new ArrayList<>();
-      List<String> utahList = new ArrayList<>();
-      List<String> virginiaList = new ArrayList<>();
-      List<String> washingtonList = new ArrayList<>();
-      List<String> wisconsinList = new ArrayList<>();
-      List<String> delawareList = new ArrayList<>();
-      List<String> maineList = new ArrayList<>();
-      List<String> vermontList = new ArrayList<>();
-      List<String> westvirginiaList = new ArrayList<>();
-      List<String> wyomingList = new ArrayList<>();
+      List<String> alabamaList = new ArrayList<String>();
+      List<String> alaskaList = new ArrayList<String>();
+      List<String> arizonaList = new ArrayList<String>();
+      List<String> arkansasList = new ArrayList<String>();
+      List<String> californiaList = new ArrayList<String>();
+      List<String> coloradoList = new ArrayList<String>();
+      List<String> connecticutList = new ArrayList<String>();
+      List<String> districtofcolumbiaList = new ArrayList<String>();
+      List<String> floridaList = new ArrayList<String>();
+      List<String> georgiaList = new ArrayList<String>();
+      List<String> hawaiiList = new ArrayList<String>();
+      List<String> idahoList = new ArrayList<String>();
+      List<String> illinoisList = new ArrayList<String>();
+      List<String> indianaList = new ArrayList<String>();
+      List<String> iowaList = new ArrayList<String>();
+      List<String> kansasList = new ArrayList<String>();
+      List<String> kentuckyList = new ArrayList<String>();
+      List<String> louisianaList = new ArrayList<String>();
+      List<String> marylandList = new ArrayList<String>();
+      List<String> massachusettsList = new ArrayList<String>();
+      List<String> michiganList = new ArrayList<String>();
+      List<String> minnesotaList = new ArrayList<String>();
+      List<String> mississippiList = new ArrayList<String>();
+      List<String> missouriList = new ArrayList<String>();
+      List<String> montanaList = new ArrayList<String>();
+      List<String> nebraskaList = new ArrayList<String>();
+      List<String> nevadaList = new ArrayList<String>();
+      List<String> newhampshireList = new ArrayList<String>();
+      List<String> newjerseyList = new ArrayList<String>();
+      List<String> newmexicoList = new ArrayList<String>();
+      List<String> newyorkList = new ArrayList<String>();
+      List<String> northcarolinaList = new ArrayList<String>();
+      List<String> northdakotaList = new ArrayList<String>();
+      List<String> ohioList = new ArrayList<String>();
+      List<String> oklahomaList = new ArrayList<String>();
+      List<String> oregonList = new ArrayList<String>();
+      List<String> pennsylvaniaList = new ArrayList<String>();
+      List<String> rhodeislandList = new ArrayList<String>();
+      List<String> southcarolinaList = new ArrayList<String>();
+      List<String> southdakotaList = new ArrayList<String>();
+      List<String> tennesseeList = new ArrayList<String>();
+      List<String> texasList = new ArrayList<String>();
+      List<String> utahList = new ArrayList<String>();
+      List<String> virginiaList = new ArrayList<String>();
+      List<String> washingtonList = new ArrayList<String>();
+      List<String> wisconsinList = new ArrayList<String>();
+      List<String> delawareList = new ArrayList<String>();
+      List<String> maineList = new ArrayList<String>();
+      List<String> vermontList = new ArrayList<String>();
+      List<String> westvirginiaList = new ArrayList<String>();
+      List<String> wyomingList = new ArrayList<String>();
       //</editor-fold>
       //<editor-fold defaultstate="collapsed" desc="Cities List">
       delawareList.add("Dover");
@@ -1183,8 +1183,8 @@ public class RandomHelper {
   //</editor-fold>
 
   /**
-   * This randomly generates three numbers and inserts them as the phone number Really simple, and formats
-   * like this: NNN-NNN-NNNN
+   * This randomly generates three numbers and inserts them as the phone number Really simple, and formats like this:
+   * NNN-NNN-NNNN
    *
    * @return
    */
@@ -1216,8 +1216,7 @@ public class RandomHelper {
   }
 
   /**
-   * Returns the opposite of what's given (if you give an abbreviation, it will return it's long name and vice
-   * versa
+   * Returns the opposite of what's given (if you give an abbreviation, it will return it's long name and vice versa
    *
    * @param string
    * @return
@@ -1328,8 +1327,8 @@ public class RandomHelper {
   }
 
   /**
-   * This returns a random date between the two given days. This is more powerful than getRandomDate(int
-   * year1, int year2), but requires a few more lines to setup the Calendar objects
+   * This returns a random date between the two given days. This is more powerful than getRandomDate(int year1, int
+   * year2), but requires a few more lines to setup the Calendar objects
    *
    * @param day1
    * @param day2
@@ -1344,8 +1343,8 @@ public class RandomHelper {
   }
 
   /**
-   * This will return a random date (generated by getRandomDate(Calendar day1, Calendar day2)) in a string
-   * formatted with the specified format
+   * This will return a random date (generated by getRandomDate(Calendar day1, Calendar day2)) in a string formatted
+   * with the specified format
    *
    * @param day1
    * @param day2
@@ -1382,8 +1381,8 @@ public class RandomHelper {
   }
 
   /**
-   * This will return a random date (generated by getRandomDate(int year1, int year2)) in a string formatted
-   * with the specified format
+   * This will return a random date (generated by getRandomDate(int year1, int year2)) in a string formatted with the
+   * specified format
    *
    * @param year1
    * @param year2
@@ -1397,8 +1396,8 @@ public class RandomHelper {
   }
 
   /**
-   * Just takes the first name's first character and the last name and the company and makes a simple string
-   * for the given person's e-mail address
+   * Just takes the first name's first character and the last name and the company and makes a simple string for the
+   * given person's e-mail address
    *
    * @param firstName
    * @param lastName

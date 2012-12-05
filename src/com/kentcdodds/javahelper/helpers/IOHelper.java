@@ -153,9 +153,8 @@ public class IOHelper {
   public static void downloadFile(String urlString, File outputFile) throws MalformedURLException, FileNotFoundException, IOException {
     URL url = new URL(urlString);
     ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-    try (FileOutputStream fos = new FileOutputStream(outputFile)) {
-      fos.getChannel().transferFrom(rbc, 0, 1 << 24);
-    }
+    FileOutputStream fos = new FileOutputStream(outputFile);
+    fos.getChannel().transferFrom(rbc, 0, 1 << 24);
   }
 
   /**
@@ -181,14 +180,13 @@ public class IOHelper {
    */
   public static byte[] downloadFile(URL url) throws MalformedURLException, IOException {
     InputStream inputStream = url.openStream();
-    try (ByteArrayOutputStream outStream = new ByteArrayOutputStream()) {
-      int byteRead;
-      byte[] buf = new byte[1024];
-      while ((byteRead = inputStream.read(buf)) != -1) {
-        outStream.write(buf, 0, byteRead);
-      }
-      return outStream.toByteArray();
+    ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    int byteRead;
+    byte[] buf = new byte[1024];
+    while ((byteRead = inputStream.read(buf)) != -1) {
+      outStream.write(buf, 0, byteRead);
     }
+    return outStream.toByteArray();
   }
 
   /**
@@ -201,14 +199,14 @@ public class IOHelper {
    */
   public static void saveInputStream(InputStream inputStream, File outputFile) throws FileNotFoundException, IOException {
     int size = 4096;
-    try (OutputStream out = new FileOutputStream(outputFile)) {
-      byte[] buffer = new byte[size];
-      int length;
-      while ((length = inputStream.read(buffer)) > 0) {
-        out.write(buffer, 0, length);
-      }
-      inputStream.close();
+    OutputStream out = new FileOutputStream(outputFile);
+    byte[] buffer = new byte[size];
+    int length;
+    while ((length = inputStream.read(buffer)) > 0) {
+      out.write(buffer, 0, length);
     }
+    out.close();
+    inputStream.close();
   }
   //</editor-fold>
 
@@ -254,13 +252,13 @@ public class IOHelper {
    */
   public static byte[] getResourceBytes(Class klass, String location) throws IOException {
     ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-    try (InputStream inputStream = klass.getResourceAsStream(location)) {
-      byte[] buffer = new byte[1024];
-      int length;
-      while ((length = inputStream.read(buffer)) > 0) {
-        byteOut.write(buffer, 0, length);
-      }
+    InputStream inputStream = klass.getResourceAsStream(location);
+    byte[] buffer = new byte[1024];
+    int length;
+    while ((length = inputStream.read(buffer)) > 0) {
+      byteOut.write(buffer, 0, length);
     }
+    byteOut.close();
     return byteOut.toByteArray();
   }
   //</editor-fold>
@@ -275,9 +273,8 @@ public class IOHelper {
    * @throws IOException
    */
   public static void zipFolder(File destination, File directory) throws FileNotFoundException, IOException {
-    try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(destination))) {
-      addDirectoryToZip(directory, directory.getName(), out);
-    }
+    ZipOutputStream out = new ZipOutputStream(new FileOutputStream(destination));
+    addDirectoryToZip(directory, directory.getName(), out);
   }
 
   /**
@@ -290,9 +287,9 @@ public class IOHelper {
    */
   public static byte[] zipFolder(File directory) throws FileNotFoundException, IOException {
     ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-    try (ZipOutputStream out = new ZipOutputStream(byteOut)) {
-      addDirectoryToZip(directory, directory.getName(), out);
-    }
+    ZipOutputStream out = new ZipOutputStream(byteOut);
+    addDirectoryToZip(directory, directory.getName(), out);
+    byteOut.close();
     return byteOut.toByteArray();
   }
 
@@ -313,14 +310,14 @@ public class IOHelper {
         addDirectoryToZip(files[i], pathToTop + "\\" + files[i].getName(), out);
         continue;
       }
-      try (FileInputStream in = new FileInputStream(files[i].getAbsolutePath())) {
-        out.putNextEntry(new ZipEntry(pathToTop + "\\" + files[i].getName()));
-        int len;
-        while ((len = in.read(buffer)) > 0) {
-          out.write(buffer, 0, len);
-        }
-        out.closeEntry();
+      FileInputStream in = new FileInputStream(files[i].getAbsolutePath());
+      out.putNextEntry(new ZipEntry(pathToTop + "\\" + files[i].getName()));
+      int len;
+      while ((len = in.read(buffer)) > 0) {
+        out.write(buffer, 0, len);
       }
+      out.closeEntry();
+      in.close();
     }
   }
 
@@ -337,9 +334,8 @@ public class IOHelper {
    * @throws Exception if the files are bigger than Integer.MAX_VALUE (2 GB)
    */
   public static void zipFiles(File destination, File... files) throws FileNotFoundException, IOException, Exception {
-    try (FileOutputStream fileOutput = new FileOutputStream(destination)) {
-      writeZipInToOut(fileOutput, files);
-    }
+    FileOutputStream fileOutput = new FileOutputStream(destination);
+    writeZipInToOut(fileOutput, files);
   }
 
   /**
@@ -358,25 +354,24 @@ public class IOHelper {
   }
 
   public static void writeZipInToOut(OutputStream outStream, File... files) throws IOException {
-    try (ZipOutputStream out = new ZipOutputStream(outStream)) {
-      for (int i = 0; i < files.length; i++) {
-        out.putNextEntry(new ZipEntry(files[i].getName()));
+    ZipOutputStream out = new ZipOutputStream(outStream);
+    for (int i = 0; i < files.length; i++) {
+      out.putNextEntry(new ZipEntry(files[i].getName()));
 
-        if (files[i] instanceof HelperFile) {
-          //Writes the HelperFile's bytes to the zipped file
-          out.write(((HelperFile) files[i]).getBytes());
-        } else {
-          FileInputStream fileIn = new FileInputStream(files[i]);
-          byte[] buffer = new byte[1024];
-          int length;
-          while ((length = fileIn.read(buffer)) != -1) {
-            out.write(buffer, 0, length);
-          }
+      if (files[i] instanceof HelperFile) {
+        //Writes the HelperFile's bytes to the zipped file
+        out.write(((HelperFile) files[i]).getBytes());
+      } else {
+        FileInputStream fileIn = new FileInputStream(files[i]);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = fileIn.read(buffer)) != -1) {
+          out.write(buffer, 0, length);
         }
-
-        // Complete the entry
-        out.closeEntry();
+        fileIn.close();
       }
+      // Complete the entry
+      out.closeEntry();
     }
   }
 
@@ -390,19 +385,17 @@ public class IOHelper {
    */
   public static void unzipFiles(File zippedFile, File destination) throws FileNotFoundException, IOException {
     ZipInputStream zipIn;
-    try (FileInputStream fileInputStream = new FileInputStream(zippedFile)) {
-      zipIn = new ZipInputStream(fileInputStream);
-      ZipEntry nextEntry;
-      while ((nextEntry = zipIn.getNextEntry()) != null) {
-        try (FileOutputStream fileOut = new FileOutputStream(destination.getPath() + "\\" + nextEntry.getName())) {
-          byte[] buffer = new byte[1024];
-          int length;
-          while ((length = zipIn.read(buffer)) != -1) {
-            fileOut.write(buffer, 0, length);
-          }
-          fileOut.close();
-        }
+    FileInputStream fileInputStream = new FileInputStream(zippedFile);
+    zipIn = new ZipInputStream(fileInputStream);
+    ZipEntry nextEntry;
+    while ((nextEntry = zipIn.getNextEntry()) != null) {
+      FileOutputStream fileOut = new FileOutputStream(destination.getPath() + "\\" + nextEntry.getName());
+      byte[] buffer = new byte[1024];
+      int length;
+      while ((length = zipIn.read(buffer)) != -1) {
+        fileOut.write(buffer, 0, length);
       }
+      fileOut.close();
     }
     zipIn.close();
   }
@@ -416,19 +409,18 @@ public class IOHelper {
    * @throws IOException
    */
   public static java.util.List<HelperFile> unzipFiles(HelperFile zippedFile) throws FileNotFoundException, IOException {
-    java.util.List<HelperFile> helperFiles = new java.util.ArrayList<>();
-    try (ZipInputStream zipIn = new ZipInputStream(new ByteArrayInputStream(zippedFile.getBytes()))) {
-      ZipEntry nextEntry;
-      while ((nextEntry = zipIn.getNextEntry()) != null) {
-        try (ByteArrayOutputStream byteOut = new ByteArrayOutputStream()) {
-          byte[] buffer = new byte[1024];
-          int length;
-          while ((length = zipIn.read(buffer)) != -1) {
-            byteOut.write(buffer, 0, length);
-          }
-          helperFiles.add(new HelperFile(byteOut.toByteArray(), nextEntry.getName()));
-        }
+    java.util.List<HelperFile> helperFiles = new java.util.ArrayList<HelperFile>();
+    ZipInputStream zipIn = new ZipInputStream(new ByteArrayInputStream(zippedFile.getBytes()));
+    ZipEntry nextEntry;
+    while ((nextEntry = zipIn.getNextEntry()) != null) {
+      ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+      byte[] buffer = new byte[1024];
+      int length;
+      while ((length = zipIn.read(buffer)) != -1) {
+        byteOut.write(buffer, 0, length);
       }
+      helperFiles.add(new HelperFile(byteOut.toByteArray(), nextEntry.getName()));
+      byteOut.close();
     }
     return helperFiles;
   }
@@ -476,9 +468,9 @@ public class IOHelper {
    */
   public static java.util.List<File>[] replaceInAllFiles(File topDirectory, int sublevels, String find, String replace, String... extension) {
     java.util.List<File> files = getAllFiles(topDirectory, sublevels, extension);
-    java.util.List<File> appliedFiles = new java.util.ArrayList<>();
-    java.util.List<File> errorFiles = new java.util.ArrayList<>();
-    java.util.List<File> unappliedFiles = new java.util.ArrayList<>();
+    java.util.List<File> appliedFiles = new java.util.ArrayList<File>();
+    java.util.List<File> errorFiles = new java.util.ArrayList<File>();
+    java.util.List<File> unappliedFiles = new java.util.ArrayList<File>();
     for (File file : files) {
       try {
         boolean applied = replaceInFile(file, find, replace);
@@ -561,7 +553,7 @@ public class IOHelper {
    * @return
    */
   public static java.util.List<File> getAllFiles(File file, int subdirectories, String... extension) {
-    java.util.List<File> filesList = new java.util.ArrayList<>();
+    java.util.List<File> filesList = new java.util.ArrayList<File>();
     if (subdirectories == -2) {
       //This is -2 because if a user gives a directory and the subdirectories as 0, it should skip this twice.
       //It's not a < -1 because if they want to get all files in the directory without care for subdirectories.
@@ -597,7 +589,7 @@ public class IOHelper {
    */
   public static java.util.List<File> getDirectoryFiles(File directory, String... extension) {
     File[] listFiles = directory.listFiles();
-    java.util.List<File> filesList = new java.util.ArrayList<>();
+    java.util.List<File> filesList = new java.util.ArrayList<File>();
     for (File file : listFiles) {
       if (file.isFile()) {
         if (extension == null || extension.length == 0) {
@@ -622,7 +614,7 @@ public class IOHelper {
    */
   public static java.util.List<File> getDirectoryDirectories(File directory) {
     File[] listFiles = directory.listFiles();
-    java.util.List<File> filesList = new java.util.ArrayList<>();
+    java.util.List<File> filesList = new java.util.ArrayList<File>();
     for (File file : listFiles) {
       if (file.isDirectory()) {
         filesList.add(file);
@@ -645,6 +637,7 @@ public class IOHelper {
     FileOutputStream f_out = new FileOutputStream(savePath);
     ObjectOutputStream o_out = new ObjectOutputStream(f_out);
     o_out.writeObject(object);
+    o_out.close();
   }
 
   /**
@@ -658,6 +651,7 @@ public class IOHelper {
   public static Object loadObject(String openPath) throws IOException, ClassNotFoundException {
     FileInputStream f_in = new FileInputStream(openPath);
     ObjectInputStream o_in = new ObjectInputStream(f_in);
+    o_in.close();
     return o_in.readObject();
   }
   //</editor-fold>
@@ -700,10 +694,14 @@ public class IOHelper {
    * @throws FileNotFoundException
    */
   public static void print(File destination, String string) throws FileNotFoundException {
-    try (PrintWriter pw = new PrintWriter(destination, "UTF-8")) {
+    PrintWriter pw = null;
+    try {
+      pw = new PrintWriter(destination, "UTF-8");
       pw.print(string);
     } catch (UnsupportedEncodingException ex) {
       Logger.getLogger(IOHelper.class.getName()).log(Level.SEVERE, null, ex);
+    } finally {
+      pw.close();
     }
   }
 

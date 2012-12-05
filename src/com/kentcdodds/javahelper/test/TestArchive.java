@@ -63,7 +63,7 @@ public class TestArchive {
   }
 
   public static void executeAndPrintQuery() throws SQLException, FileNotFoundException, IOException {
-    Map<String, String> props = new TreeMap<>();
+    Map<String, String> props = new TreeMap<String, String>();
     props.put("user", dbUser);
     props.put("password", dbPassword);
     ResultSet rs = SQLHelper.executeQuery(devDatabaseUrl, props, "select 'h' \"question\" from dual");
@@ -187,61 +187,61 @@ public class TestArchive {
     System.out.println("Scanner: " + (scannerAvg / 1000000) + " milliseconds -> " + (scannerAvg / 1000000000) + " seconds");
   }
 
-  /**
-   * Tests for unzip methods
-   *
-   * @throws FileNotFoundException
-   * @throws IOException
-   */
-  public static void unzip() throws FileNotFoundException, IOException, Exception {
-//    File zipped = new File(ioPlaygroundDir, "unzip-haha.zip");
-//    File zipOutput = new File(ioPlaygroundDir, "unzip-hahe\\");
-//    zipOutput.mkdir();
-//    IOHelper.unzipFiles(zipped, zipOutput);
-
-
-    HelperFile hFile1 = new HelperFile(new File(ioPlaygroundDir, "wiki1.txt"));
-    HelperFile hFile2 = new HelperFile(new File(ioPlaygroundDir, "wiki2.txt"));
-    byte[] zipFiles = IOHelper.zipFiles(hFile1, hFile2);
-    List<HelperFile> unzipFiles = IOHelper.unzipFiles(new HelperFile(zipFiles, "This is the zip"));
-    for (HelperFile helperFile : unzipFiles) {
-      IOHelper.saveBytesToFile(helperFile.getBytes(), ioPlaygroundDir + "\\helperout\\" + helperFile.getName());
-    }
-  }
-
-  /**
-   * Tests for zip methods and benchmarking
-   *
-   * @throws FileNotFoundException
-   * @throws IOException
-   * @throws Exception
-   */
-  public static void zip() throws FileNotFoundException, IOException, Exception {
-    //Setup files
-    File file1 = new File(IOHelper.homeDir + "\\wiki1.txt");
-    File file2 = new File(IOHelper.homeDir + "\\wiki2.txt");
-    HelperFile hFile1 = new HelperFile(file1);
-    HelperFile hFile2 = new HelperFile(file2);
-
-    long start1 = System.nanoTime();
-    for (int i = 0; i < 10; i++) {
-      IOHelper.zipFiles(new File(IOHelper.homeDir + "\\Test With Files.zip"), file1, file2);
-    }
-    long end1 = System.nanoTime();
-    long diff1 = end1 - start1;
-    System.out.println("Test with files time: " + diff1);
-
-
-    long start2 = System.nanoTime();
-    for (int i = 0; i < 10; i++) {
-      byte[] zipFiles = IOHelper.zipFiles(hFile1, hFile2);
-      IOHelper.saveBytesToFile(zipFiles, IOHelper.homeDir + "\\Test with Helpers.zip");
-    }
-    long end2 = System.nanoTime();
-    long diff2 = end2 - start2;
-    System.out.println("Test with Helpers time: " + diff2);
-    System.out.println("Time difference (diff1 - diff2): " + (diff1 - diff2));
-  }
+//  /**
+//   * Tests for unzip methods
+//   *
+//   * @throws FileNotFoundException
+//   * @throws IOException
+//   */
+//  public static void unzip() throws FileNotFoundException, IOException, Exception {
+////    File zipped = new File(ioPlaygroundDir, "unzip-haha.zip");
+////    File zipOutput = new File(ioPlaygroundDir, "unzip-hahe\\");
+////    zipOutput.mkdir();
+////    IOHelper.unzipFiles(zipped, zipOutput);
+//
+//
+//    HelperFile hFile1 = new HelperFile(new File(ioPlaygroundDir, "wiki1.txt"));
+//    HelperFile hFile2 = new HelperFile(new File(ioPlaygroundDir, "wiki2.txt"));
+//    byte[] zipFiles = IOHelper.zipFiles(hFile1, hFile2);
+//    List<HelperFile> unzipFiles = IOHelper.unzipFiles(new HelperFile(zipFiles, "This is the zip"));
+//    for (HelperFile helperFile : unzipFiles) {
+//      IOHelper.saveBytesToFile(helperFile.getBytes(), ioPlaygroundDir + "\\helperout\\" + helperFile.getName());
+//    }
+//  }
+//
+//  /**
+//   * Tests for zip methods and benchmarking
+//   *
+//   * @throws FileNotFoundException
+//   * @throws IOException
+//   * @throws Exception
+//   */
+//  public static void zip() throws FileNotFoundException, IOException, Exception {
+//    //Setup files
+//    File file1 = new File(IOHelper.homeDir + "\\wiki1.txt");
+//    File file2 = new File(IOHelper.homeDir + "\\wiki2.txt");
+//    HelperFile hFile1 = new HelperFile(file1);
+//    HelperFile hFile2 = new HelperFile(file2);
+//
+//    long start1 = System.nanoTime();
+//    for (int i = 0; i < 10; i++) {
+//      IOHelper.zipFiles(new File(IOHelper.homeDir + "\\Test With Files.zip"), file1, file2);
+//    }
+//    long end1 = System.nanoTime();
+//    long diff1 = endw1 - start1;
+//    System.out.println("Test with files time: " + diff1);
+//
+//
+//    long start2 = System.nanoTime();
+//    for (int i = 0; i < 10; i++) {
+//      byte[] zipFiles = IOHelper.zipFiles(hFile1, hFile2);
+//      IOHelper.saveBytesToFile(zipFiles, IOHelper.homeDir + "\\Test with Helpers.zip");
+//    }
+//    long end2 = System.nanoTime();
+//    long diff2 = end2 - start2;
+//    System.out.println("Test with Helpers time: " + diff2);
+//    System.out.println("Time difference (diff1 - diff2): " + (diff1 - diff2));
+//  }
 
   public static void email() throws Exception {
 //    String user = gmailUser;
@@ -249,11 +249,11 @@ public class TestArchive {
 //    String password = gmailPassword;
     String from = user;
     String contentId = "image2";
-    List<String> to = new ArrayList<>();
+    List<String> to = new ArrayList<String>();
     to.add("me@kentcdodds.com");
-    List<String> cc = new ArrayList<>();
+    List<String> cc = new ArrayList<String>();
 //    cc.add("dfkefofds@mailinator.com");
-    List<String> bcc = new ArrayList<>();
+    List<String> bcc = new ArrayList<String>();
 //    bcc.add("gfdjakl@mailinator.com");
     String subject = "This is a test subject!" + new Random().nextInt(1000);
     String body = "<div>This is text before</div><img src=\"cid:" + contentId + "\" alt=\"Inline image 1\" width=\"150\"><div><br></div><div>This is after</div>";

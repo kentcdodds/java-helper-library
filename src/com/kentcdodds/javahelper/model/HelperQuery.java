@@ -17,7 +17,7 @@ public class HelperQuery {
    * Empty Constructor. Be sure to set the query and parameters.
    */
   public HelperQuery() {
-    parametersList = new java.util.ArrayList<>();
+    parametersList = new java.util.ArrayList<QueryParameter[]>();
   }
 
   /**
@@ -29,7 +29,7 @@ public class HelperQuery {
    */
   public HelperQuery(String query, QueryParameter... parameters) {
     this.query = query;
-    parametersList = new java.util.ArrayList<>();
+    parametersList = new java.util.ArrayList<QueryParameter[]>();
     parametersList.add(parameters);
   }
 

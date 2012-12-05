@@ -15,14 +15,14 @@ import javax.mail.internet.MimeBodyPart;
 public class Email {
 
   private String from = "";
-  private List<String> replyTo = new ArrayList<>();
-  private List<String> to = new ArrayList<>();
-  private List<String> cc = new ArrayList<>();
-  private List<String> bcc = new ArrayList<>();
+  private List<String> replyTo = new ArrayList<String>();
+  private List<String> to = new ArrayList<String>();
+  private List<String> cc = new ArrayList<String>();
+  private List<String> bcc = new ArrayList<String>();
   private String subject = "";
   private String body = "";
   private boolean html = false;
-  private List<MimeBodyPart> bodyParts = new ArrayList<>();
+  private List<MimeBodyPart> bodyParts = new ArrayList<MimeBodyPart>();
 
   //<editor-fold defaultstate="collapsed" desc="Constructors">
   /**
@@ -98,7 +98,7 @@ public class Email {
    * exception.
    */
   public List<EmailAttachment> addEmailAttachments(EmailAttachment... attachment) {
-    List<EmailAttachment> failedAttachments = new ArrayList<>();
+    List<EmailAttachment> failedAttachments = new ArrayList<EmailAttachment>();
     for (EmailAttachment emailAttachment : attachment) {
       try {
         boolean success = addEmailAttachment(emailAttachment);

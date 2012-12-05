@@ -66,7 +66,7 @@ public class StringFormatHelper {
   public static String percentEncodeString(String originalString) {
     //It is important that % is first, if you put it any later it will replace % with anything that's replace before.
     //Try it, you'll see what I mean.
-    java.util.Map<Character, String> replaceMap = new java.util.TreeMap<>();
+    java.util.Map<Character, String> replaceMap = new java.util.TreeMap<Character, String>();
     //<editor-fold defaultstate="collapsed" desc="Set Map">
     replaceMap.put('%', "%25");
     replaceMap.put('!', "%21");

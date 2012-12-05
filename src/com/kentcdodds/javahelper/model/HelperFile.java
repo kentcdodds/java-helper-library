@@ -6,8 +6,8 @@ import java.io.*;
 /**
  * This class is really helpful for dealing with files in memory. The major difference between this and a regular file
  * (which it extends) is this has a byte[] of its bytes which can be set and therefore you can hand this around as a
- * regular file but treat it like it exists only in memory. The IOHelper and the EmailHelper each have methods which
- * can use this class powerfully.
+ * regular file but treat it like it exists only in memory. The IOHelper and the EmailHelper each have methods which can
+ * use this class powerfully.
  *
  * @author kentcdodds
  */
@@ -62,6 +62,7 @@ public class HelperFile extends File {
     }
     bytes = new byte[(int) length()];
     stream.read(bytes);
+    stream.close();
   }
 
   /**
@@ -71,9 +72,9 @@ public class HelperFile extends File {
    * @throws IOException when writing the bytes to the disk
    */
   public void saveBytes() throws FileNotFoundException, IOException {
-    try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(this))) {
-      out.write(bytes);
-    }
+    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(this));
+    out.write(bytes);
+    out.close();
   }
 
   /**

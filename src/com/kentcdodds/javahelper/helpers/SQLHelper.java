@@ -51,8 +51,9 @@ public class SQLHelper {
 
   /**
    * Prints the result set to the consol.
+   *
    * @param rs
-   * @throws SQLException 
+   * @throws SQLException
    */
   public static void printResultSet(ResultSet rs) throws SQLException {
     ResultSetMetaData metaData = rs.getMetaData();
@@ -92,19 +93,19 @@ public class SQLHelper {
     }
     File file = new File(destination);
     IOHelper.checkDirectory(file);
-    try (PrintWriter pw = new PrintWriter(file); CSVWriter writer = new CSVWriter(pw)) {
-      writer.writeNext(header);
-      while (rs.next()) {
-        String[] row = new String[columnCount];
-        for (int i = 0; i < columnCount; i++) {
-          String string = rs.getString(i + 1);
-          if (string == null) {
-            string = "";
-          }
-          row[i] = string;
+    PrintWriter pw = new PrintWriter(file);
+    CSVWriter writer = new CSVWriter(pw);
+    writer.writeNext(header);
+    while (rs.next()) {
+      String[] row = new String[columnCount];
+      for (int i = 0; i < columnCount; i++) {
+        String string = rs.getString(i + 1);
+        if (string == null) {
+          string = "";
         }
-        writer.writeNext(row);
+        row[i] = string;
       }
+      writer.writeNext(row);
     }
   }
 }

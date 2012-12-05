@@ -60,16 +60,19 @@ public class ReflectionHelper {
     }
     sb.append(prefix).append(aClass.getName()).append(":").append(StringHelper.newline);
     for (Field field : aClass.getDeclaredFields()) {
+      field.setAccessible(true);
+      Class<? extends Object> fieldClass;
       try {
-        field.setAccessible(true);
-        Class<? extends Object> fieldClass = field.get(o).getClass();
+        fieldClass = field.get(o).getClass();
         if (!isPrimitive(fieldClass) && fieldClass != String.class && scanInnerObjects) {
           appendObjectToStringBuilder(sb, field.get(o), scanSupers, limitSupers, scanInnerObjects, (limitInners - 1), prefix + "\t");
         }
         String name = field.getName();
         Object value = field.get(o);
         sb.append(prefix).append("\t").append(name).append(": ").append(value).append(StringHelper.newline);
-      } catch (IllegalArgumentException | IllegalAccessException ex) {
+      } catch (IllegalArgumentException ex) {
+        Logger.getLogger(ReflectionHelper.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (IllegalAccessException ex) {
         Logger.getLogger(ReflectionHelper.class.getName()).log(Level.SEVERE, null, ex);
       }
     }
@@ -93,9 +96,11 @@ public class ReflectionHelper {
     boolean checkMatch = false;
     try {
       checkMatch = matchFields(klass.getDeclaredFields(), object, match, ignoreField);
-    } catch (IllegalArgumentException | IllegalAccessException ex) {
-      Logger.getLogger(com.kentcdodds.javahelper.helpers.OtherHelper.class.getName()).log(Level.SEVERE, null, ex);
-    }
+    } catch (IllegalArgumentException ex) {
+        Logger.getLogger(ReflectionHelper.class.getName()).log(Level.SEVERE, null, ex);
+      } catch (IllegalAccessException ex) {
+        Logger.getLogger(ReflectionHelper.class.getName()).log(Level.SEVERE, null, ex);
+      }
     if (checkMatch) {
       return true;
     } else {

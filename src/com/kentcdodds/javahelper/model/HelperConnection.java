@@ -1,8 +1,6 @@
 package com.kentcdodds.javahelper.model;
 
-import com.kentcdodds.javahelper.helpers.OtherHelper;
 import java.sql.*;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -19,9 +17,9 @@ public class HelperConnection {
   private String jdbcURL = null;
   private Properties connectionProperties = null;
   private Connection connection = null;
-  private java.util.List<HelperQuery> queuedQueries = new java.util.ArrayList<>();
-  private java.util.List<HelperQuery> errorQueries = new java.util.ArrayList<>();
-  private java.util.List<HelperQuery> executedQueries = new java.util.ArrayList<>();
+  private java.util.List<HelperQuery> queuedQueries = new java.util.ArrayList<HelperQuery>();
+  private java.util.List<HelperQuery> errorQueries = new java.util.ArrayList<HelperQuery>();
+  private java.util.List<HelperQuery> executedQueries = new java.util.ArrayList<HelperQuery>();
 
   /**
    * Empty constructor, be sure to set jdbcURL and properties map
@@ -210,10 +208,10 @@ public class HelperConnection {
           }
           break;
         case QueryParameter.BOOLEAN:
-          pstmt.setBoolean(i, (boolean) value);
+          pstmt.setBoolean(i, (Boolean) value);
           break;
         case QueryParameter.BYTE:
-          pstmt.setByte(i, (byte) value);
+          pstmt.setByte(i, (Byte) value);
           break;
         case QueryParameter.BYTES:
           pstmt.setBytes(i, (byte[]) value);
@@ -235,16 +233,16 @@ public class HelperConnection {
           pstmt.setDate(i, (java.sql.Date) value);
           break;
         case QueryParameter.DOUBLE:
-          pstmt.setDouble(i, (double) value);
+          pstmt.setDouble(i, (Double) value);
           break;
         case QueryParameter.FLOAT:
-          pstmt.setFloat(i, (float) value);
+          pstmt.setFloat(i, (Float) value);
           break;
         case QueryParameter.INT:
-          pstmt.setInt(i, (int) value);
+          pstmt.setInt(i, (Integer) value);
           break;
         case QueryParameter.LONG:
-          pstmt.setLong(i, (long) value);
+          pstmt.setLong(i, (Long) value);
           break;
         case QueryParameter.NCHARACTERSTREAM:
           pstmt.setNCharacterStream(i, (java.io.Reader) value);
@@ -272,7 +270,7 @@ public class HelperConnection {
           pstmt.setRowId(i, (java.sql.RowId) value);
           break;
         case QueryParameter.SHORT:
-          pstmt.setShort(i, (short) value);
+          pstmt.setShort(i, (Short) value);
           break;
         case QueryParameter.SQLXML:
           pstmt.setSQLXML(i, (java.sql.SQLXML) value);
@@ -308,7 +306,7 @@ public class HelperConnection {
    * @return
    */
   public java.util.List<HelperQuery> executeQueue() {
-    java.util.List<HelperQuery> returnList = new java.util.ArrayList<>(queuedQueries.size());
+    java.util.List<HelperQuery> returnList = new java.util.ArrayList<HelperQuery>(queuedQueries.size());
     int i = 0;
     while (i < queuedQueries.size()) {
       HelperQuery helperQuery = queuedQueries.get(i);
